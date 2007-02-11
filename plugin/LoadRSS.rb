@@ -4,7 +4,8 @@ require 'rss/1.0'
 require 'rss/2.0'
 
 def LoadRSS(config,data)
-  rss_source = IO.read(config["url"])
+  rss_source = ""
+  open(config["url"]) {|r| rss_source=r.read }
   rss = nil
   begin
     rss = RSS::Parser.parse(rss_source)
