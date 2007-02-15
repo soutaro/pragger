@@ -1,5 +1,7 @@
+require "pp"
+
 def print(config,data)
-  p data
+  pp data
   return data
 end
 
