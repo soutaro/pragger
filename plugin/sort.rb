@@ -1,4 +1,4 @@
-def Sort(config,data)
+def sort(config,data)
   return data.sort do|a,b|
     if(config==nil || config["method"] == nil)
       a <=> b

@@ -3,7 +3,7 @@ require 'open-uri'
 require 'rss/1.0'
 require 'rss/2.0'
 
-def LoadRSS(config,data)
+def load_rss(config,data)
   rss_source = ""
   open(config["url"]) {|r| rss_source=r.read }
   rss = nil

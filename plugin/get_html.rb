@@ -1,6 +1,6 @@
 require "open-uri"
 
-def GetHtml(config,data)
+def get_html(config,data)
   data.map do |line|
     r = ""
     open(line) {|f| r = f.read }

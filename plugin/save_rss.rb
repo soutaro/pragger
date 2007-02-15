@@ -1,6 +1,6 @@
 require "rss/maker"
 
-def SaveRSS(config,data)
+def save_rss(config,data)
   rss = RSS::Maker.make("1.0") do |maker|
     maker.channel.about = config['about'] || config['link'] || "http://example.net/"
     maker.channel.title = config['title'] || "Pragger output"

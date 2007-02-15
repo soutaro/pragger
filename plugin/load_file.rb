@@ -1,5 +1,5 @@
 require "yaml"
-def LoadFile(config,data)
+def load_file(config,data)
   return YAML.load_file(config["filename"]) || []
 end
 

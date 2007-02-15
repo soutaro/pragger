@@ -1,4 +1,4 @@
-def FindRegex(config,data)
+def find_regex(config,data)
   retval = []
   reg = Regexp.new(config["regex"])
   data.each do |text|

@@ -1,4 +1,4 @@
-def First(config,data)
+def first(config,data)
   return [data.first]
 end
 
