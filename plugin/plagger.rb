@@ -1,3 +1,26 @@
+# ** what's this **
+#
+# interleave plagger processing.
+# 
+# ** example **
+#
+# - module: load_rss
+#   config:
+#     url: http://d.hatena.ne.jp/sumii/rss
+# - module: plagger
+#   config:
+#     input: feed
+#     debug: on
+#     plugins: 
+#       - module: Publish::CSV
+#         config: 
+#           dir: /var
+#           filename: a.csv
+# - module: print
+#   config:
+#     a: nil
+#
+
 require 'open-uri'
 require 'rss/1.0'
 require 'rss/2.0'
