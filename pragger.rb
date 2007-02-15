@@ -1,7 +1,11 @@
 #!/usr/bin/env ruby
 
+$KCODE='utf8'
+
 require "yaml"
 require "optparse"
+require "kconv"
+require "pp"
 
 #plugin loader
 class Plugin
@@ -17,7 +21,7 @@ class Plugin
   end
 end
 
-#config roader
+#config loader
 class Config
   def initialize()
   end
@@ -26,7 +30,7 @@ class Config
   
   def self.load_file(fname)
     c = Config.new
-    c.command_array = YAML.load_file(fname)
+    c.command_array = YAML.load(File.read(fname).toutf8)
     return c
   end
   
@@ -37,15 +41,15 @@ class Config
   end
   
   def eval()
-    return eval_pragger(@command_array,[])
+    return eval_pragger(@command_array, [])
   end
 end
 
 #interpritor
 def eval_pragger(command_array,data)
   command_array.each do|command|
-    puts "exec plugin " + command["module"] + "(" + command["config"].to_s + ")"
-    data = $plugin.send(command["module"],command["config"],data.clone)
+    puts "exec plugin #{command["module"]}(#{command["config"].collect{|k,v| "#{k}=#{v}"}.join(", ")})"
+    data = $plugin.send(command["module"], command["config"], data.clone)
   end
   return data
 end
