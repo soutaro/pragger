@@ -1,9 +1,9 @@
 
-require 'open-uri'
-require 'rss/1.0'
-require 'rss/2.0'
-
 def load_rss(config,data)
+  require 'open-uri'
+  require 'rss/1.0'
+  require 'rss/2.0'
+
   rss_source = ""
   begin
     open(config["url"]) {|r| rss_source=r.read }
