@@ -5,7 +5,12 @@ require 'rss/2.0'
 
 def load_rss(config,data)
   rss_source = ""
-  open(config["url"]) {|r| rss_source=r.read }
+  begin
+    open(config["url"]) {|r| rss_source=r.read }
+  rescue
+    puts "LoadError File = #{config["url"]}"
+    return []
+  end
   rss = nil
   begin
     rss = RSS::Parser.parse(rss_source)
