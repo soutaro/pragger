@@ -10,7 +10,7 @@ require "pp"
 #plugin loader
 class Plugin
   def initialize(folder = "./plugin")
-    Dir::glob(folder + "/*.rb").sort.each do |file|
+    Dir::glob(File.join(folder, "*.rb")).sort.each do |file|
       load_plugin(file)
     end
   end
@@ -57,7 +57,13 @@ end
 #main
 
 #option 
-pluginDir = "./plugin"
+pluginDir = ""
+if File.symlink?(__FILE__)
+	pluginDir = File.join(File.dirname(File.readlink(__FILE__)), "plugin")
+else 
+	pluginDir = File.join(File.dirname(__FILE__), "plugin")
+end
+
 configFile = "config.yaml"
 
 OptionParser.new do|opt|

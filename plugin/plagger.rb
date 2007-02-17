@@ -25,7 +25,7 @@ require 'open-uri'
 require 'rss/1.0'
 require 'rss/2.0'
 require "pathname"
-require 'plugin/save_rss.rb'
+require File.join(File.dirname(__FILE__),'save_rss.rb')
 
 def plagger(config, data)
   Plagger.new.plagger(config, data)
