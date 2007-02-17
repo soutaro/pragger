@@ -1,5 +1,7 @@
 require "rss/maker"
 
+@count = Time.now.to_i
+
 def save_rss(config,data)
   rss = RSS::Maker.make("1.0") do |maker|
     maker.channel.about = config['about'] || config['link'] || "http://example.net/"
@@ -13,13 +15,15 @@ def save_rss(config,data)
       else 
         item = maker.items.new_item
         item.title = i.title rescue i.to_s
-        item.link = i.link rescue config['link'] || "http://example.net/"
+        item.link = i.link rescue (config['link'] || "http://example.net/") + "#{@count}"
         item.description = i.description rescue i.to_s
         item.date = i.date rescue Time.now
+        @count += 1
       end
     end
   end
   open(config["filename"],"w"){|w| w.puts rss }
   return data
 end
+
 
