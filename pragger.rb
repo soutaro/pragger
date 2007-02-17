@@ -48,7 +48,7 @@ end
 #interpritor
 def eval_pragger(command_array,data)
   command_array.each do|command|
-    puts "exec plugin #{command["module"]}(#{command["config"].collect{|k,v| "#{k}=#{v}"}.join(", ")})"
+    puts "exec plugin #{command["module"]}(#{(command["config"]||[]).collect{|k,v| "#{k}=#{v}"}.join(", ")})"
     data = $plugin.send(command["module"], command["config"], data.clone)
   end
   return data
