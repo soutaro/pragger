@@ -3,6 +3,7 @@ def load_rss(config,data)
   require 'open-uri'
   require 'rss/1.0'
   require 'rss/2.0'
+  require 'rss/maker'
 
   rss_source = ""
   begin
