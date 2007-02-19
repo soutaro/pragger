@@ -6,10 +6,10 @@ def custom_feed(config,data)
   items = []
   data.each do |input|
     body = ""
-    pp(config['capture'])
     if(config['capture'])
-      input =~ Regexp.new(config['capture'],Regexp::MULTILINE)
-      body = $1
+      if input =~ Regexp.new(config['capture'],Regexp::MULTILINE)
+        body = $1
+      end
     else
       body = input
     end
@@ -26,16 +26,47 @@ def custom_feed(config,data)
   if(config['title'])
     title = Regexp.new(config['title'])
     items.each do|i|
-      i =~ title
-      mytitle = $1
-      i.instance_eval do 
-        @title = mytitle
-        def title
-          @title
+      if i =~ title
+        mytitle = $1
+        i.instance_eval do 
+          @title = mytitle
+          def title
+            @title
+          end
         end
       end
     end
   end
 
+  if(config['date'])
+    date = Regexp.new(config['date'])
+    items.each do|i|
+      if i =~ date
+        mydate = Time.parse($1)
+        i.instance_eval do
+          @date = mydate
+          def date
+            @date
+          end
+        end
+      end
+    end
+  end
+
+  if config['link'] and config['url']
+    link = Regexp.new(config['link'])
+    items.each do|i|
+      if i =~ link
+        mylink = config['url'] ? (config['url'] + '#' + $1) : $1 
+        i.instance_eval do
+          @link = mylink
+          def link
+            @link
+          end
+        end
+      end
+    end
+  end
+  
   return items
 end
