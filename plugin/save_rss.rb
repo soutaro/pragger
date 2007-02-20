@@ -16,7 +16,7 @@ def save_rss(config,data)
       else 
         item = maker.items.new_item
         item.title = i.title rescue i.to_s
-        item.link = i.link rescue (config['link'] || "http://example.net/") + "?#{@count}"
+        item.link = i.link rescue (config['link'] || "http://example.net/") + "\##{@count}"
         item.description = i.description rescue i.to_s
         item.date = i.date rescue Time.now
         @count += 1
