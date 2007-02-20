@@ -1,78 +1,44 @@
 #!/usr/bin/env ruby
-
 $KCODE='utf8'
+require 'yaml'
+require 'optparse'
+require 'kconv'
 
-require "yaml"
-require "optparse"
-require "kconv"
-require "pp"
-
-#plugin loader
 class Plugin
-  def initialize(folder = "./plugin")
-    Dir::glob(File.join(folder, "*.rb")).sort.each do |file|
-      load_plugin(file)
-    end
+  def initialize(file)
+      instance_eval( File.read(file).toutf8 , file , 1)
   end
-  def load_plugin(file)
-    File.open(file) do |src|
-      instance_eval( src.read , file , 1)
+  def self.load_plugins(folder = "plugin")
+    Dir.glob(File.join(folder, "**/*.rb")).sort.inject({}).each do |plugins,file|
+      plugins[ file[b.size..-1].to_s.gsub("/","::")[0..-4] ] = Plugin.new(file)
     end
   end
 end
 
-#config loader
-class Config
-  def initialize()
-  end
-  
-  attr_accessor :command_array
-  
-  def self.load_file(fname)
-    c = Config.new
-    c.command_array = YAML.load(File.read(fname).toutf8)
-    return c
-  end
-  
-  def self.load_array(array)
-    c = Config.new
-    c.command_array = array
-    return c
-  end
-  
-  def eval()
-    return eval_pragger(@command_array, [])
-  end
-end
-
-#interpritor
 def eval_pragger(command_array,data)
-  command_array.each do|command|
-    puts "exec plugin #{command["module"]}(#{(command["config"]||[]).collect{|k,v| "#{k}=#{v}"}.join(", ")})"
-    data = $plugin.send(command["module"], command["config"], data.clone)
+  command_array.inject({}) do|data,command|
+    puts "exec plugin #{command["module"]}"
+    $plugin[command["module"]].send(command["module"].sub(/.*::/,""), command["config"], data.clone)
   end
   return data
 end
 
-#main
-
-#option 
-pluginDir = ""
-if File.symlink?(__FILE__)
-	pluginDir = File.join(File.dirname(File.readlink(__FILE__)), "plugin")
-else 
-	pluginDir = File.join(File.dirname(__FILE__), "plugin")
-end
-
+baseDir = File.readlink(__FILE__) rescue (__FILE__)
+pluginDir = File.join(File.dirname(baseDir), "plugin")
 configFile = "config.yaml"
-
 OptionParser.new do|opt|
   opt.on("-c", "--configfile CONFIGFILE"){|v| configFile = v }
   opt.on("-p", "--plugindir PLUGINDIR"){|v| pluginDir= v }
+  opt.on("-u", "--pluginusage [PLUGINNAME]"){|v| 
+    if(v==nil)
+      Plugin.load_plugin(pluginDir).each{|k,v| puts k }
+    else
+      File.read(File.join(pluginDir,v.gsub("::","/")+".rb")).sub(/#(.*)/){ puts $1 }
+    end
+    exit
+  }
   opt.parse!(ARGV)
 end
 
-$plugin = Plugin.new(pluginDir)
-config = Config.load_file(configFile)
-config.eval()
-
+$plugin = Plugin.load_plugins(pluginDir)
+eval_pragger(YAML.load(File.read(configFile).toutf8),[])
