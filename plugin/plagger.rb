@@ -62,7 +62,7 @@ class Plagger
           pla_config(config).delete
           pla_input(config).delete
           pla_output(config).delete
-        rescue a
+        rescue => a
           pp a
         end
       end
