@@ -27,8 +27,9 @@ def yahoo(config, data)
     
     form.radiobuttons.each {|radio| radio.checked = (radio.value =~ /#{trans}/) ? true : false }
     form.fields.name("text").first.value = d
-    
+
     result = agent.submit(form)
     result.forms.name("textFormEntry").fields.name("trn_text").value
   }
+
 end
