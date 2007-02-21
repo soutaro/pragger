@@ -23,7 +23,9 @@ def eval_pragger(command_array,data)
   return data
 end
 
-baseDir = File.readlink(__FILE__) rescue (__FILE__)
+baseDir = begin File.readlink(__FILE__) 
+          rescue Exception 
+          (__FILE__) end
 pluginDir = File.join(File.dirname(baseDir), "plugin")
 configFile = "config.yaml"
 OptionParser.new do|opt|
