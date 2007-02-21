@@ -20,7 +20,6 @@ def eval_pragger(command_array,data)
     puts "exec plugin #{command["module"]}"
     $plugin[command["module"]].send(command["module"].sub(/.*::/,""), command["config"], data.clone)
   end
-  return data
 end
 
 baseDir = begin File.readlink(__FILE__) 
