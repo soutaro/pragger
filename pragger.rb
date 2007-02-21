@@ -9,8 +9,8 @@ class Plugin
       instance_eval( File.read(file).toutf8 , file , 1)
   end
   def self.load_plugins(folder = "plugin")
-    Dir.glob(File.join(folder, "**/*.rb")).sort.inject({}).each do |plugins,file|
-      plugins[ file[b.size..-1].to_s.gsub("/","::")[0..-4] ] = Plugin.new(file)
+    Dir.glob(File.join(folder, "**/*.rb")).sort.inject({}) do |plugins,file|
+      plugins.update( Hash[ file[folder.size+1..-1].to_s.gsub("/","::")[0..-4] , Plugin.new(file) ])
     end
   end
 end
