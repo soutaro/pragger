@@ -1,3 +1,5 @@
+# translate input strings by Yahoo Honyaku (requires WWW::Mechanize)
+
 begin
   require 'rubygems'
 rescue LoadError
