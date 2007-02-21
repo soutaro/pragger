@@ -1,10 +1,11 @@
-begin
-  require 'rubygems'
-rescue LoadError
-end
-require 'hpricot'
 
 def apply_text_html(config, data)
+  begin
+    require 'rubygems'
+  rescue LoadError
+  end
+  require 'hpricot'
+  
   data.collect {|d|
     doc = Hpricot(d.to_s.toutf8)
     texts = []

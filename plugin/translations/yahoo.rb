@@ -1,12 +1,13 @@
 # translate input strings by Yahoo Honyaku (requires WWW::Mechanize)
 
-begin
-  require 'rubygems'
-rescue LoadError
-end
-require 'mechanize'
-
 def yahoo(config, data)
+  begin
+    require 'rubygems'
+  rescue LoadError
+  end
+  require 'mechanize'
+
+
   config = (config || { "translation" => "en=>ja" })
 
   trans = case config["translation"]
