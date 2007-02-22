@@ -20,7 +20,7 @@ class Plugin
 end
 
 def eval_pragger(command_array,data)
-  command_array.inject({}) do |data,command|
+  command_array.inject(data) do |data,command|
     puts "exec plugin #{command["module"]}"
     $plugins[command["module"]].send(command["module"].sub(/.*::/,""), command["config"], data.clone)
   end
