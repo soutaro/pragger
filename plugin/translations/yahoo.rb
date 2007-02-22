@@ -22,15 +22,19 @@ def yahoo(config, data)
           end
   
   data.collect {|d|
-    agent = WWW::Mechanize.new
-    start = agent.get("http://honyaku.yahoo.co.jp/")
-    form = start.forms.last
-    
-    form.radiobuttons.each {|radio| radio.checked = (radio.value =~ /#{trans}/) ? true : false }
-    form.fields.name("text").first.value = d
-
-    result = agent.submit(form)
-    result.forms.name("textFormEntry").fields.name("trn_text").value
+    if d && d =~ /\S/
+      agent = WWW::Mechanize.new
+      start = agent.get("http://honyaku.yahoo.co.jp/")
+      form = start.forms.last
+      
+      form.radiobuttons.each {|radio| radio.checked = (radio.value =~ /#{trans}/) ? true : false }
+      form.fields.name("text").first.value = d
+      
+      result = agent.submit(form)
+      result.forms.name("textFormEntry").fields.name("trn_text").value
+    else
+      d.to_s
+    end
   }
 
 end
