@@ -14,7 +14,10 @@ class Plugin
   end
   def self.load_plugins(folder = (Pathname.new(__FILE__).realpath.parent + "plugin"))
     Pathname.glob(File.join(folder, "**/*.rb")).sort.each do |file|
-      $plugins.update file.relative_path_from(folder).to_s.gsub("/","::")[0..-4] => Plugin.new(file)
+      begin
+        $plugins.update file.relative_path_from(folder).to_s.gsub("/","::")[0..-4] => Plugin.new(file)
+      rescue LoadError
+      end
     end
   end
 end
