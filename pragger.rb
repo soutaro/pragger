@@ -1,16 +1,11 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -r yaml -r optparse -r kconv -r pathname -r pp
 $KCODE='utf8'
-require 'yaml'
-require 'optparse'
-require 'kconv'
-require 'pathname'
 
 $plugins = {}
 class Plugin
   attr_reader :source
   def initialize(file)
-    @source = File.read(file).toutf8
-    instance_eval( @source, file , 1)
+    instance_eval( @source = File.read(file).toutf8, file , 1)
   end
   def self.load_plugins(folder = (Pathname.new(__FILE__).realpath.parent + "plugin"))
     Pathname.glob(File.join(folder, "**/*.rb")).sort.each do |file|
