@@ -1,6 +1,4 @@
-#!/usr/bin/env ruby -r yaml -r optparse -r kconv -r pathname -r pp
-$KCODE='utf8'
-
+#!/usr/bin/env ruby -Ku -ryaml -roptparse -rkconv -rpathname -rpp
 $plugins = {}
 class Plugin
   attr_reader :source
