@@ -18,7 +18,7 @@ end
 def eval_pragger(command_array,data)
   command_array.inject(data) do |data,command|
     puts "exec plugin #{command["module"]}"
-    $plugins[command["module"]].send(command["module"].sub(/.*::/,""), command["config"] || {}, data.clone)
+    $plugins[command["module"]].send(command["module"].sub(/.*::/,""), command["config"] || {}, data)
   end
 end
 
@@ -29,7 +29,7 @@ OptionParser.new do |opt|
   opt.on("-p", "--plugindir PLUGINDIR") {|v| Plugin.load_plugins Pathname.new(v) }
   opt.on("-u", "--pluginusage PLUGINNAME") {|v| $plugins[v].source.gsub(/^##(.*)/){ puts $1 }; exit }
   opt.on("-l", "--listplugin") { $plugins.keys.sort.each{|k| puts k }; exit }
-  opt.parse!(ARGV)
+  opt.parse!
 end
 
 eval_pragger(YAML.load(File.read(configFile).toutf8),[])
