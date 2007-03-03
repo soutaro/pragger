@@ -8,7 +8,7 @@ class Plugin
   def self.load_plugins(folder = (Pathname.new(__FILE__).realpath.parent + "plugin"))
     Pathname.glob(File.join(folder, "**/*.rb")).sort.each do |file|
       begin
-        $plugins.update file.relative_path_from(folder).to_s.gsub("/","::")[0..-4] => Plugin.new(file)
+        $plugins[ file.relative_path_from(folder).to_s.gsub("/","::")[0..-4] ]= Plugin.new(file)
       rescue LoadError
       end
     end
@@ -24,12 +24,11 @@ end
 
 Plugin.load_plugins()
 configFile = "config.yaml"
-OptionParser.new do |opt|
-  opt.on("-c", "--configfile CONFIGFILE") {|v| configFile = v }
-  opt.on("-p", "--plugindir PLUGINDIR") {|v| Plugin.load_plugins Pathname.new(v) }
-  opt.on("-u", "--pluginusage PLUGINNAME") {|v| $plugins[v].source.gsub(/^##(.*)/){ puts $1 }; exit }
-  opt.on("-l", "--listplugin") { $plugins.keys.sort.each{|k| puts k }; exit }
-  opt.parse!
-end
+opt = OptionParser.new
+opt.on("-c", "--configfile CONFIGFILE") {|v| configFile = v }
+opt.on("-p", "--plugindir PLUGINDIR") {|v| Plugin.load_plugins Pathname.new(v) }
+opt.on("-u", "--pluginusage PLUGINNAME") {|v| $plugins[v].source.gsub(/^##(.*)/){ puts $1 }; exit }
+opt.on("-l", "--listplugin") { $plugins.keys.sort.each{|k| puts k }; exit }
+opt.parse!
 
 eval_pragger(YAML.load(File.read(configFile).toutf8),[])
