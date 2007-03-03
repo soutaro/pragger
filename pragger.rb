@@ -26,7 +26,7 @@ Plugin.load_plugins()
 configFile = "config.yaml"
 OptionParser.new do |opt|
   opt.on("-c", "--configfile CONFIGFILE") {|v| configFile = v }
-  opt.on("-p", "--plugindir PLUGINDIR") {|v| Plugin.load_plugins v }
+  opt.on("-p", "--plugindir PLUGINDIR") {|v| Plugin.load_plugins Pathname.new(v) }
   opt.on("-u", "--pluginusage PLUGINNAME") {|v| $plugins[v].source.gsub(/^##(.*)/){ puts $1 }; exit }
   opt.on("-l", "--listplugin") { $plugins.keys.sort.each{|k| puts k }; exit }
   opt.parse!(ARGV)
