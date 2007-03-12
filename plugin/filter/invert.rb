@@ -11,5 +11,5 @@
 
 def invert(config, data)
   data2 = eval_pragger(config, data)
-  data.delete_if {|d| data2.include? d }
+  data.select {|d| data2.include? d }
 end
