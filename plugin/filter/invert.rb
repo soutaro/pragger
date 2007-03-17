@@ -10,6 +10,5 @@
 ##
 
 def invert(config, data)
-  data2 = eval_pragger(config, data)
-  data.select {|d| data2.include? d }
+  date - eval_pragger(config, data)
 end
