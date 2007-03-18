@@ -1,9 +1,8 @@
+require "rss/maker"
 
 @count = Time.now.to_i
 
 def save_rss(config,data)
-  require "rss/maker"
-
   rss = RSS::Maker.make("1.0") do |maker|
     maker.channel.about = config['about'] || config['link'] || "http://example.net/"
     maker.channel.title = config['title'] || "Pragger output"
