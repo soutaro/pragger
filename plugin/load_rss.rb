@@ -9,7 +9,7 @@ def load_rss(config, data)
       if config['url'].is_a?(Array)
         config['url'].map {|url| open(url) {|io| io.read } }
       else
-        open(config['url']) {|r| r.read }
+        [ open(config['url']) {|r| r.read } ]
       end
   rescue
     puts "LoadError File = #{config["url"]}"
