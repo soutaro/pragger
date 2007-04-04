@@ -1,26 +1,25 @@
-## ** what's this **
+## Interleave Plagger processing -- Soutaro Matsumoto
 ##
-## interleave plagger processing.
-## 
-## ** example **
+## Invokes Plagger and process the input with your Plagger.
+## The input must be an Array of RSS::RDF::Item.
+## The output is an Array of RSS::RDF::Item.
+## If "debug" is a value evaluated to true, tempolary files for/from Plagger won't be deleted.
+## If "input" is "nothing", the input will be ignored.
+## If you omit "dir", the default is /var.
+## Be sure your system have /var directory and pragger/Plagger can write.
 ##
-## - module: load_rss
-##   config:
-##     url: http://d.hatena.ne.jp/sumii/rss
 ## - module: plagger
 ##   config:
 ##     input: feed
-##     debug: on
+##     debug: false
+##     dir: /var
 ##     plugins: 
 ##       - module: Publish::CSV
 ##         config: 
 ##           dir: /var
 ##           filename: a.csv
-## - module: print
-##   config:
-##     a: nil
-##
 
+raise LoadError unless system "plagger --help > /dev/null 2>/dev/null"
 require 'open-uri'
 require 'rss/1.0'
 require 'rss/2.0'

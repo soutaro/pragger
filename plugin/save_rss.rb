@@ -1,3 +1,15 @@
+## Save RSS as a file -- IKeJI
+## 
+## Save RSS as a file.
+## Title, Link, and Description of the RSS can be set.
+## The input is expected to be an Array of RSS::RDF::Item.
+##
+## - module: save_rss
+##   config:
+##     title: An Title
+##     link: http://www.example.com/hoge.rdf
+##     description: sample rdf
+
 require "rss/maker"
 
 @count = Time.now.to_i

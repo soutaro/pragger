@@ -33,7 +33,7 @@ configFile = "config.yaml"
 opt = OptionParser.new
 opt.on("-c", "--configfile CONFIGFILE") {|v| configFile = v }
 opt.on("-p", "--plugindir PLUGINDIR") {|v| Plugin.load_plugins(Pathname(v)) }
-opt.on("-u", "--pluginusage PLUGINNAME") {|v| $plugins[v].source.gsub(/^##(.*)/){ puts $1 }; exit }
+opt.on("-u", "--pluginusage PLUGINNAME") {|v| $plugins[v].source.gsub(/^## ?(.*)/){ puts $1 }; exit }
 opt.on("-l", "--listplugin") { $plugins.keys.sort.each{|k| puts k }; exit }
 opt.on("-w", "--where") { puts(Pathname(__FILE__).parent + "plugin"); exit }
 opt.parse!

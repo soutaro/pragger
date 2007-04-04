@@ -1,4 +1,4 @@
-# translate input strings by Yahoo Honyaku (requires WWW::Mechanize)
+## Translate input strings by Yahoo Honyaku -- Soutaro Matsumoto
 
 def yahoo(config, data)
   begin

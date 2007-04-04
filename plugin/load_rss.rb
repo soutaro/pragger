@@ -1,3 +1,12 @@
+## Load RSS from given URLs -- IKeJI
+## 
+## Load RSS from given URLs.
+## If URL is an Array, all URLs in the array will be loaded.
+##
+## - module: load_rss
+##   config:
+##     uri: http://www.example.com/hoge.rdf
+
 require 'open-uri'
 require 'rss/1.0'
 require 'rss/2.0'

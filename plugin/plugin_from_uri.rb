@@ -1,16 +1,14 @@
-## author "Soutaro Matsumoto"
-## descr "load plugin from uri and evaluate it"
-## example <<EOE
+## Load plugin from uri and evaluate it -- Soutaro Matsumoto
+##
+## Load plugiin from uri and evaluate it.
+## If you omit "name", the last component of the uri will be used as the name of plugin.
+##
 ## - module: plugin_from_uri
 ##   config:
 ##     uri: http://some_host/some_path
 ##     name: super_plugin
 ##     config:
-##       configuration for the plugin
-## EOE
-## config({ :uri => Field.new("uri for ruby programs", String, true),
-##          :name => Field.new("name of pragger plugin", String),
-##          :config => Field.new("configuration for the plugin",{}) })
+##       ** configuration for the plugin **
 
 require 'open-uri'
 require 'uri'
