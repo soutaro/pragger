@@ -3,7 +3,7 @@
 ## Load RSS from given URLs.
 ## If URL is an Array, all URLs in the array will be loaded.
 ##
-## - module: load_rss
+## - module: RSS::load
 ##   config:
 ##     uri: http://www.example.com/hoge.rdf
 
@@ -12,7 +12,7 @@ require 'rss/1.0'
 require 'rss/2.0'
 require 'rss/maker'
 
-def load_rss(config, data)
+def load(config, data)
   begin
     rss_source = 
       if config['url'].is_a?(Array)

@@ -4,7 +4,7 @@
 ## Title, Link, and Description of the RSS can be set.
 ## The input is expected to be an Array of RSS::RDF::Item.
 ##
-## - module: save_rss
+## - module: RSS::save
 ##   config:
 ##     title: An Title
 ##     link: http://www.example.com/hoge.rdf
@@ -14,7 +14,7 @@ require "rss/maker"
 
 @count = Time.now.to_i
 
-def save_rss(config,data)
+def save(config,data)
   rss = RSS::Maker.make("1.0") do |maker|
     maker.channel.about = config['about'] || config['link'] || "http://example.net/"
     maker.channel.title = config['title'] || "Pragger output"

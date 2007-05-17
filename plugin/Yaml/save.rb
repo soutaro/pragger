@@ -1,5 +1,6 @@
-def save_file(config,data)
-  require "yaml"
+require "yaml"
+
+def save(config,data)
   File.open(config["filename"],"w") do |w|
     YAML.dump(data,w)
   end
