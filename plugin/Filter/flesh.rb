@@ -1,4 +1,4 @@
-def flesh(config,data)
+def fresh(config,data)
   t = config['duration']
   t = t.to_i * (60)       if t=~/m$/
   t = t.to_i * (60*60)    if t=~/h$/
