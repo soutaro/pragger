@@ -1,7 +1,22 @@
-#plugin custom_feed
+## Read data and convert to feed -- IKeJI
+##
+## Read data and convert to feed.
+## 
+## Example 
+## - module: Feed::custom_feed
+##   config:
+##     url: addr of data -- optional
+##     capture: regex for content -- optional
+##     split: regex for item
+##     title: regex for title
+##     date: regex for date
+##     link: regex for link
+##     
+
+require 'open-uri'
+require 'kconv'
+
 def custom_feed(config,data)
-  require 'open-uri'
-  require 'kconv'
   open(config['url']){|r| data = [r.read.toutf8] } if(config['url'])
   items = []
   data.each do |input|

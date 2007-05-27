@@ -1,3 +1,13 @@
+## get Google search history -- IKeJI
+##
+## for example you can get your search keyword 'harahetta'
+##
+## -module: Feed::google_search_history
+##  config:
+##    user: hoge
+##    pass: fuga
+##
+
 require 'net/https'
 require 'rss/1.0'
 require 'rss/2.0'
