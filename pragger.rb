@@ -11,7 +11,7 @@ class Plugin
   def initialize(file)
     instance_eval( @source = File.read(file).toutf8, file , 1)
   end
-  def self.load_plugins(folder = (Pathname(__FILE__).parent + "plugin"))
+  def self.load_plugins(folder = (Pathname.new(__FILE__).parent + "plugin"))
     Pathname.glob(folder + "**/*.rb").sort.each do |file|
       begin
         $plugins[ file.relative_path_from(folder).to_s.gsub("/","::")[0..-4] ]= Plugin.new(file)
@@ -32,10 +32,10 @@ Plugin.load_plugins()
 configFile = "config.yaml"
 opt = OptionParser.new
 opt.on("-c", "--configfile CONFIGFILE") {|v| configFile = v }
-opt.on("-p", "--plugindir PLUGINDIR") {|v| Plugin.load_plugins(Pathname(v)) }
+opt.on("-p", "--plugindir PLUGINDIR") {|v| Plugin.load_plugins(Pathname.new(v)) }
 opt.on("-u", "--pluginusage PLUGINNAME") {|v| $plugins[v].source.gsub(/^## ?(.*)/){ puts $1 }; exit }
 opt.on("-l", "--listplugin") { $plugins.keys.sort.each{|k| puts k }; exit }
-opt.on("-w", "--where") { puts(Pathname(__FILE__).parent + "plugin"); exit }
+opt.on("-w", "--where") { puts(Pathname.new(__FILE__).parent + "plugin"); exit }
 opt.parse!
 
 eval_pragger(YAML.load(File.read(configFile).toutf8),[])
