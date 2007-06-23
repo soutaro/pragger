@@ -1,64 +1,37 @@
 ## Get Hatena Graph data
-## 
-## see http://d.hatena.ne.jp/takatoh/20070518/pragger
+##
+## hatenaapigraph 0.2.2 is required.
 ##
 ## - module: Feed::hatena_graph
 ##   config:
 ##     user_id: your-hatena-user-id
 ##     password: your-password
 ##     graph_name: the-name-of-graph
+##     proxy_host: proxy-host-name   (optional)
+##     proxy_port: proxy-port        (optional)
+##     proxy_user: proxy-user        (optional)
+##     proxy_pass: proxy-password    (optional)
 
 begin
   require 'rubygems'
+  gem 'hatenaapigraph', '>=0.2.2'
 rescue LoadError
 end
-require 'mechanize'
-require 'uri'
-require 'kconv'
-require 'csv'
+require 'hatena/api/graph'
 
-class HatenaGraph
-  def initialize(id,password)
-    @id = id
-    @password = password
-    @agent = WWW::Mechanize.new
-    if proxy = ENV['http_proxy']
-      proxy = URI.parse(proxy)
-      @agent.set_proxy(proxy.host, proxy.port)
-    end
-    @graph = @agent.get("http://graph.hatena.ne.jp/#{id}/")
-  end
 
-  def login
-    login_link = @graph.links.text("ログイン".toutf8)
-    login_page = @agent.get(login_link.href)
-    login_form = login_page.forms.first
-    login_form['key'] = @id
-    login_form['password'] = @password
-    redirect_page = @agent.submit(login_form)
-    @graph_link = redirect_page.links.text("こちら".toutf8)
-    @graph_page = @agent.get(@graph_link.href)
-  end
-
-  def fetch_csv
-    @data_link = @graph_page.links.text("データ".toutf8)
-    @data_page = @agent.get(@data_link.href)
-    csv_link = @data_page.links.text("ダウンロード".toutf8)
-    csv_file = @agent.get(csv_link.href)                    # => WWW::Mechanize::File
-    tmpfile = Tempfile.open("hatenagraph")
-    path = tmpfile.path
-    csv_file.save_as(path)
-    tmpfile.close
-    path
-  end
-end
+GraphData = Struct.new(:date, :value)
 
 def hatena_graph(config, data)
-  graph = HatenaGraph.new(config['user_id'], config['password']) 
-  graph.login
-  csvpath = graph.fetch_csv
-  csv = CSV.open(csvpath, "r").map{|r| r }
-  graph_names = csv.shift
-  i = graph_names.index(config['graph_name'].tosjis)
-  csv.map{|r| r[i].to_f }
+  graph = Hatena::API::Graph.new(config['user_id'], config['password'])
+  if config['proxy_host']
+    proxy_host = config['proxy_host']
+    proxy_port = config['proxy_port']
+    proxy_user = config['proxy_user']
+    proxy_pass = config['proxy_pass']
+    graph.proxy = ::Net::HTTP.Proxy(proxy_host, proxy_port, proxy_user, proxy_pass)
+  end
+  graph_data = graph.get_data(config['graph_name'])
+  graph_data.map{|k,v| GraphData.new(k, v)}.sort{|a,b| a.date<=>b.date}
 end
+
