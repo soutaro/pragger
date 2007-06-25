@@ -4,6 +4,7 @@ require 'yaml'
 require 'optparse'
 require 'kconv'
 require 'pathname'
+require 'base64'
 
 $plugins = {}
 class Plugin
@@ -38,4 +39,4 @@ opt.on("-l", "--listplugin") { $plugins.keys.sort.each{|k| puts k }; exit }
 opt.on("-w", "--where") { puts(Pathname.new(__FILE__).parent + "plugin"); exit }
 opt.parse!
 
-eval_pragger(YAML.load(File.read(configFile).toutf8),[])
+eval_pragger(YAML.load(File.read(configFile).toutf8.gsub(/base64::([\w+\/]+=*)/){ Base64.decode64($1) }),[])
