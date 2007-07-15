@@ -1,12 +1,23 @@
-#!/usr/bin/env ruby
-# hatena_diary_writer.rb
-#
+## Post data to Hatena Diary -- garyo
+##
+## - module: Publish::hatena_diary_writer
+##   config:
+##     user_id: your-hatena-user-id
+##     password: your-password
+
+require 'rubygems'
+require 'mechanize'
+require 'kconv'
 
 class HatenaDiaryWriter
   def initialize(id,password)
     @id = id
     @password = password
     @agent = WWW::Mechanize.new
+    if proxy = ENV['HTTP_PROXY']
+      proxy = URI.parse(proxy)
+      @agent.set_proxy(proxy.host, proxy.port)
+    end
     @diary = @agent.get("http://d.hatena.ne.jp/#{id}/")
   end
 
@@ -14,7 +25,7 @@ class HatenaDiaryWriter
     login_link = @diary.links.text("ログイン".toeuc)
     login_page = @agent.get(login_link.href)
     login_form = login_page.forms.first
-    login_form['key'] = @id
+    login_form['name'] = @id
     login_form['password'] = @password
     redirect_page = @agent.submit(login_form)
     @diary_link = redirect_page.links.text("こちら".toutf8)
@@ -32,10 +43,6 @@ class HatenaDiaryWriter
 end
 
 def hatena_diary_writer(config, data)
-  require 'rubygems'
-  require 'mechanize'
-  require 'kconv'
-
   diary = HatenaDiaryWriter.new(config['user_id'], config['password']) 
   content = ''
   data.each do |line|
