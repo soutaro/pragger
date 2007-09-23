@@ -4,9 +4,9 @@
 ## The input must be an Array of RSS::RDF::Item.
 ## The output is an Array of RSS::RDF::Item.
 ## If "debug" is a value evaluated to true, tempolary files for/from Plagger won't be deleted.
-## If "input" is "nothing", the input will be ignored.
+## If "input" is not "feed", the input will be ignored.
 ## If you omit "dir", the default is /var.
-## Be sure your system have /var directory and pragger/Plagger can write.
+## Make sure your system have /var directory and pragger/Plagger can write.
 ##
 ## - module: plagger
 ##   config:
@@ -19,11 +19,15 @@
 ##           dir: /var
 ##           filename: a.csv
 
-raise LoadError unless system "plagger --help > /dev/null 2>/dev/null"
+require 'rbconfig'
 require 'open-uri'
 require 'rss/1.0'
 require 'rss/2.0'
 require 'pathname'
+
+raise LoadError unless ENV['PATH'].split(RbConfig::CONFIG['PATH_SEPARATOR']).find {|dir|
+  File.executable?(File.join(dir, 'plagger')) || File.executable?(File.join(dir, 'plagger.bat'))
+}
 
 def plagger(config, data)
   pla_con = config["plugins"]
