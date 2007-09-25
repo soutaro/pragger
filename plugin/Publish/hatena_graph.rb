@@ -15,7 +15,7 @@
 begin
   require 'rubygems'
   gem 'hatenaapigraph', '>=0.2.2'
-rescue LoadError
+rescue Exception
 end
 require 'hatena/api/graph'
 
