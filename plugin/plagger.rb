@@ -25,7 +25,7 @@ require 'rss/1.0'
 require 'rss/2.0'
 require 'pathname'
 
-raise LoadError unless ENV['PATH'].split(RbConfig::CONFIG['PATH_SEPARATOR']).find {|dir|
+raise LoadError unless ENV['PATH'].split(Config::CONFIG['PATH_SEPARATOR']).find {|dir|
   File.executable?(File.join(dir, 'plagger')) || File.executable?(File.join(dir, 'plagger.bat'))
 }
 
