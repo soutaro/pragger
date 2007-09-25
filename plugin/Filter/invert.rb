@@ -10,5 +10,5 @@
 ##
 
 def invert(config, data)
-  date - eval_pragger(config, data)
+  data - eval_pragger(config, data)
 end
