@@ -63,8 +63,10 @@ class MixiDiaryWriter
     
       conf_form = confirm_page.forms[0] # select 'hai'
       @agent.submit(conf_form)
-    rescue
-      puts "unknown error"
+    rescue => e
+      puts "Exception when posting diary"
+      puts e.message
+      puts e.backtrace.join("\n")
     end
   end
 
