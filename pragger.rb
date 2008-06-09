@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/local/bin/ruby
 $KCODE='u'
 require 'yaml'
 require 'optparse'
@@ -25,7 +25,7 @@ end
 def eval_pragger(command_array,data)
   command_array.inject(data) do |data, command|
     STDERR.puts "exec plugin #{command["module"]}"
-    $plugins[command["module"]].send(command["module"].sub(/.*::/,""), command["config"] || {}, data.dup)
+    $plugins[command["module"]].send(command["module"].sub(/.*::/,""), command["config"] || {}, data.clone)
   end
 end
 
