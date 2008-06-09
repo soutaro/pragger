@@ -68,7 +68,7 @@ def custom_feed(config,data)
     end
   end
 
-  if config['link'] and config['url']
+  if config['link'] or config['url']
     link = Regexp.new(config['link'])
     items.each do|i|
       if i =~ link
