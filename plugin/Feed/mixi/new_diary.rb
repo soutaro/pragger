@@ -24,10 +24,19 @@ def new_diary(config,data)
   data = []
   diarylist = client.get('http://mixi.jp/new_friend_diary.pl')
   sleep 5
-  diarylist.links.each do |link|
-    diaryurl = link.href # => 'view_diary.pl?id=12345&owner_id=2345'
-    if /view_diary.pl\?id\=/ =~ diaryurl then
-      data << 'http://mixi.jp/' + diaryurl
+  loop do
+    diarylist.links.each do |link|
+      diaryurl = link.href # => 'view_diary.pl?id=12345&owner_id=2345'
+      if /view_diary.pl\?id\=/ =~ diaryurl then
+        data << 'http://mixi.jp/' + diaryurl
+      end
+    end
+    nextlink = diarylist.links.find(){|i| i.href =~ /new_friend_diary\.pl\?page\=\d\&direction\=next/ }
+    if(nextlink != nil)
+      diarylist = nextlink.click
+      sleep 5
+    else
+      break
     end
   end
   return data
