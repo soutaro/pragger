@@ -1,5 +1,5 @@
 eval <<'EOL',TOPLEVEL_BINDING
-alias eval_pragger_loggnizer_backup eval_pragger
+alias eval_pragger_find_pragger_backup eval_pragger
 
 def eval_pragger(command_array,data)
   command_array.each do |command|
@@ -7,7 +7,7 @@ def eval_pragger(command_array,data)
       STDERR.puts "Plugin not found : #{command["module"]}"
     end
   end
-  eval_pragger_loggnizer_backup(command_array,data)
+  eval_pragger_find_pragger_backup(command_array,data)
 end
 EOL
 
