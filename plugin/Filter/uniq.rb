@@ -8,7 +8,7 @@ def uniq(config,data)
     result[ (i.link rescue i) ] = [ind,i]
   end
   data = []
-  result.values.sort{|a,b| a[0]<=>b[0]}.each do |a|
+  result.values.sort{|a,b| b[0]<=>a[0]}.each do |a|
     data << a[1]
   end
   return data
