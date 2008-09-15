@@ -5,7 +5,7 @@
 ##
 ## - module: RSS::load
 ##   config:
-##     uri: http://www.example.com/hoge.rdf
+##     url: http://www.example.com/hoge.rdf
 
 require 'open-uri'
 require 'rss/1.0'
