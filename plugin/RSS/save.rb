@@ -27,7 +27,15 @@ def save(config,data)
       else 
         item = maker.items.new_item
         item.title = i.title rescue i.to_s
-        item.link = i.link rescue (config['link'] || "http://example.net/") + "\##{@count}"
+        begin
+          item.link = i.link
+        rescue
+          if i.to_s =~ %r|^https?://| 
+            item.link = i.to_s
+          else
+            item.link = (config['link'] || "http://example.net/") + "\##{@count}"
+          end
+        end
         item.description = i.description rescue i.to_s
         item.date = i.date rescue Time.now
         @count += 1
