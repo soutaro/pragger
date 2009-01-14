@@ -1,24 +1,23 @@
 ## author "emergent"
 ## descr  "post feed(s) to mixi diary"
 ## 
+## Need username and password to regist.yaml
+## mixi:
+##  username: *********
+##  password: #########
+##
+## 
 ## example <<EOE
 ## when posting one diary per one feed 
 ## - module: publish::mixi_diary_writer
-##   config:
-##     username: test@test.com
-##     password: ********
 ## 
 ## when posting merged feeds to one diary
 ## - module: publish::mixi_diary_writer
 ##   config:
-##     username: test@test.com
-##     password: ********
 ##     title: "フィード一覧"
 ##     merge_feeds: 1
 ## EOE
-## config({ :username => Field.new("username to login", String, true),
-##          :password => Field.new("password to login", String, true),
-##          :merge_feeds => Field.new("aggregate feeds to one diary", String),
+## config({ :merge_feeds => Field.new("aggregate feeds to one diary", String),
 ##          :title => Field.new("title when merge_feeds is on", String) })
 
 require 'rubygems'
@@ -93,7 +92,7 @@ def mixi_diary_writer(config, data)
     }
   end
 
-  mdw = MixiDiaryWriter.new(config['username'], config['password'])
+  mdw = MixiDiaryWriter.new( $reg['mixi']['username'], $reg['mixi']['password'])
 
   content.each {|entry|
     mdw.login
