@@ -3,7 +3,9 @@
 ##  http://d.hatena.ne.jp/big-eyed-hamster/20090113
 ##
 ## sample
-## - module: Feed::mixi::new_echo
+## - module: Feed::mixi::get_echo_list
+##   config:
+##     id: 00000000
 ## - module: RSS::save
 ##   config:
 ##     filename: output.rdf
@@ -46,6 +48,7 @@ def get_echo_list( config, data )
           ]
       end
     end
+    sleep 5
   end
 
   echo_item = Struct.new(:title,:description,:link)
