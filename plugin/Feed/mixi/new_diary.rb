@@ -28,7 +28,14 @@ def new_diary(config,data)
     diarylist.links.each do |link|
       diaryurl = link.href # => 'view_diary.pl?id=12345&owner_id=2345'
       if /view_diary.pl\?id\=/ =~ diaryurl then
-        data << 'http://mixi.jp/' + diaryurl
+        item = 'http://mixi.jp/' + diaryurl
+        item.instance_eval do
+          @title = link.text
+          def title
+            @title
+          end
+        end
+        data << item
       end
     end
     nextlink = diarylist.links.find(){|i| i.href =~ /new_friend_diary\.pl\?page\=\d\&direction\=next/ }
