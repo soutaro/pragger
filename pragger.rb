@@ -13,7 +13,7 @@ class Plugin
     instance_eval( @source = File.read(file).toutf8, file , 1)
   end
   def self.load_plugins(folder = (Pathname(__FILE__).parent + "plugin"))
-    Pathname.glob(folder + "**/*.rb").sort.each do |file|
+    Pathname.glob(folder.to_s + "**/*.rb").sort.each do |file|
       begin
         $plugins[ file.relative_path_from(folder).to_s.gsub("/","::")[0..-4] ]= Plugin.new(file)
       rescue LoadError
