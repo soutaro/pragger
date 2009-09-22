@@ -11,6 +11,7 @@
 ##     description: sample rdf
 
 require "rss/maker"
+require "kconv"
 
 @count = Time.now.to_i
 
@@ -26,17 +27,17 @@ def save(config,data)
         i.setup_maker(maker)
       else 
         item = maker.items.new_item
-        item.title = i.title rescue i.to_s
+        item.title = i.title.toutf8 rescue i.to_s.toutf8
         begin
-          item.link = i.link
+          item.link = i.link.toutf8
         rescue
           if i.to_s =~ %r|^https?://| 
-            item.link = i.to_s
+            item.link = i.to_s.toutf8
           else
             item.link = (config['link'] || "http://example.net/") + "\##{@count}"
           end
         end
-        item.description = i.description rescue i.to_s
+        item.description = i.description.toutf8 rescue i.to_s.toutf8
         item.date = i.date rescue Time.now
         @count += 1
       end
