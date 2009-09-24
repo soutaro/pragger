@@ -36,7 +36,6 @@ opt.on("-p", "--plugindir PLUGINDIR") {|v| Plugin.load_plugins(Pathname(v)) }
 opt.on("-u", "--pluginusage PLUGINNAME") {|v| $plugins[v].source.gsub(/^## ?(.*)/){ puts $1 }; exit }
 opt.on("-l", "--listplugin") { $plugins.keys.sort.each{|k| puts k }; exit }
 opt.on("-w", "--where") { puts(Pathname(__FILE__).parent + "plugin"); exit }
-opt.on("-v", "--verbose") { $verbose = true }
 opt.parse!
 
 eval_pragger(YAML.load(File.read(configFile).toutf8.gsub(/base64::([\w+\/]+=*)/){ Base64.decode64($1) }),[])
