@@ -11,12 +11,18 @@ def yahoo(config, data)
   config = (config || { "translation" => "en=>ja" })
 
   trans = case config["translation"]
-          when "en=>ja": "EJ"
-          when "kr=>ja": "KJ"
-          when "cn=>ja": "CJ"
-          when "ja=>en": "JE"
-          when "ja=>kr": "JK"
-          when "ja=>cn": "JC"
+          when "en=>ja"
+            "EJ"
+          when "kr=>ja"
+            "KJ"
+          when "cn=>ja"
+            "CJ"
+          when "ja=>en"
+            "JE"
+          when "ja=>kr"
+            "JK"
+          when "ja=>cn"
+            "JC"
           else
             return data
           end
